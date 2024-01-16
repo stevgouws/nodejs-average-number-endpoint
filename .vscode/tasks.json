@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "test",
+      "command": "npm run test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true,
+        "close": false
+      },
+      "isBackground": false,
+      "problemMatcher": [],
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "beaker"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    }
+  ]
+}
