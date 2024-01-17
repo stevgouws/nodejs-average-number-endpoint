@@ -1,6 +1,6 @@
 import { randomNumberService } from "./services/randomNumberService.js";
 
-class NumberMonitor {
+export class Monitor {
   interval;
 
   randomNumbers = [];
@@ -30,5 +30,3 @@ class NumberMonitor {
     clearInterval(this.interval);
   }
 }
-
-export const monitor = new NumberMonitor();

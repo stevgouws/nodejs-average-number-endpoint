@@ -1,8 +1,9 @@
 import express from "express";
-import { monitor } from "./monitor.js";
+import { Monitor } from "./Monitor.js";
 
 const app = express();
 const port = 3000;
+const monitor = new Monitor();
 
 app.listen(port, async () => {
   console.log(`✅ Average number app is listening on port ${port}`);

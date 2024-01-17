@@ -1,11 +1,12 @@
 import { expect } from "chai";
 import { describe, it, before, after } from "mocha";
 import sinon from "sinon";
-import { monitor } from "../app/monitor.js";
+import { Monitor } from "../app/Monitor.js";
 import { randomNumberService } from "../app/services/randomNumberService.js";
 
 describe("monitor", () => {
   let clock;
+  const monitor = new Monitor();
   before(async () => {
     clock = sinon.useFakeTimers();
     const randomNumberServiceStub = sinon.stub(
