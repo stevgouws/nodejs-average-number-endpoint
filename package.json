@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "pm2 start index.js",
-    "stop": "pm2 stop index",
+    "dev": "nodemon app/server.js",
+    "start": "pm2 start app/server.js",
+    "stop": "pm2 stop server",
     "test": "mocha"
   },
   "author": "Steven Gouws",
