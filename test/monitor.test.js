@@ -8,14 +8,10 @@ describe("monitor", () => {
   describe("given that the monitor is run", () => {
     const monitor = new Monitor();
     let clock;
+    const range = [10, 20]; // average 15
     before(async () => {
       clock = sinon.useFakeTimers();
-      const getRandomNumberStub = sinon.stub(
-        randomNumberService,
-        "getRandomNumber"
-      );
-      getRandomNumberStub.onCall(0).returns(10);
-      getRandomNumberStub.onCall(1).returns(20);
+      stubGetRandomNumberToSequentiallyReturn(range);
       await monitor.start();
     });
     after(async () => {
@@ -43,13 +39,7 @@ describe("monitor", () => {
     const range = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]; // average 55
     beforeEach(async () => {
       clock = sinon.useFakeTimers();
-      const getRandomNumberStub = sinon.stub(
-        randomNumberService,
-        "getRandomNumber"
-      );
-      range.forEach((number, index) => {
-        getRandomNumberStub.onCall(index).returns(number);
-      });
+      stubGetRandomNumberToSequentiallyReturn(range);
       await monitor.start();
     });
     afterEach(async () => {
@@ -68,13 +58,7 @@ describe("monitor", () => {
     const range = [undefined, 10, undefined, 20]; // average 15
     beforeEach(async () => {
       clock = sinon.useFakeTimers();
-      const getRandomNumberStub = sinon.stub(
-        randomNumberService,
-        "getRandomNumber"
-      );
-      range.forEach((number, index) => {
-        getRandomNumberStub.onCall(index).returns(number);
-      });
+      stubGetRandomNumberToSequentiallyReturn(range);
       await monitor.start();
     });
     afterEach(async () => {
@@ -87,3 +71,13 @@ describe("monitor", () => {
     });
   });
 });
+
+function stubGetRandomNumberToSequentiallyReturn(numbers) {
+  const getRandomNumberStub = sinon.stub(
+    randomNumberService,
+    "getRandomNumber"
+  );
+  numbers.forEach((number, index) => {
+    getRandomNumberStub.onCall(index).returns(number);
+  });
+}
