@@ -1,6 +1,8 @@
 import { randomNumberService } from "./services/randomNumberService.js";
 
 export class Monitor {
+  frequency = 250;
+
   interval;
 
   randomNumbers = [];
@@ -21,7 +23,7 @@ export class Monitor {
         this.randomNumbers.reduce((memo, number) => memo + number, 0) /
         this.randomNumbers.length;
       console.log("this.currentAverage", this.currentAverage);
-    }, 1000);
+    }, this.frequency);
   }
 
   stop() {

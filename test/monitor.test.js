@@ -22,16 +22,17 @@ describe("monitor", () => {
       clock.restore();
       sinon.restore();
     });
-    it("should not update the average in less than a second", async () => {
-      await clock.tickAsync(500);
+    it(`should not update the average in less than ${monitor.frequency}ms`, async () => {
+      await clock.tickAsync(monitor.frequency - 1);
       expect(monitor.currentAverage).to.be.undefined;
     });
-    it("should update the average after a second", async () => {
-      await clock.tickAsync(500);
+
+    it(`should update the average after ${monitor.frequency}ms`, async () => {
+      await clock.tickAsync(monitor.frequency);
       expect(monitor.currentAverage).to.equal(10);
     });
-    it("should continue to update the average after every subsequent second", async () => {
-      await clock.tickAsync(1000);
+    it(`should continue to update the average after every subsequent ${monitor.frequency}ms`, async () => {
+      await clock.tickAsync(monitor.frequency);
       expect(monitor.currentAverage).to.equal(15);
     });
   });
@@ -56,7 +57,7 @@ describe("monitor", () => {
       sinon.restore();
     });
     it("should update the average to the average of the entire range", async () => {
-      await clock.tickAsync(1000 * range.length);
+      await clock.tickAsync(monitor.frequency * range.length);
       expect(monitor.currentAverage).to.equal(55);
     });
   });
@@ -64,7 +65,7 @@ describe("monitor", () => {
   describe("given that the random number service doesn't return a number", () => {
     const monitor = new Monitor();
     let clock;
-    const range = [undefined, 10, 20]; // average 15
+    const range = [undefined, 10, undefined, 20]; // average 15
     beforeEach(async () => {
       clock = sinon.useFakeTimers();
       const getRandomNumberStub = sinon.stub(
@@ -80,8 +81,8 @@ describe("monitor", () => {
       clock.restore();
       sinon.restore();
     });
-    it("should ignore that value from the calculation", async () => {
-      await clock.tickAsync(1000 * range.length);
+    it("should ignore those values from the calculation", async () => {
+      await clock.tickAsync(monitor.frequency * range.length);
       expect(monitor.currentAverage).to.equal(15);
     });
   });
