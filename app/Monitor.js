@@ -1,4 +1,5 @@
 import { randomNumberService } from "./services/randomNumberService.js";
+import { logger } from "./services/loggerService.js";
 
 export class Monitor {
   frequency = 250;
@@ -10,25 +11,27 @@ export class Monitor {
   currentAverage = 0;
 
   async start() {
-    console.log("Starting monitor");
+    logger.info(`Starting monitor, running at ${this.frequency}ms intervals`);
     this.interval = setInterval(async () => {
       const randomNumber = await randomNumberService.getRandomNumber();
+      logger.trace(`received ${randomNumber}`);
       if (typeof randomNumber !== "number") {
-        console.log(`number is ${randomNumber}, skipping...`);
+        logger.trace(
+          `number is ${randomNumber} instead of a number, skipping...`
+        );
         return;
       }
-      console.log(`Adding ${randomNumber}`);
       const previousSum =
         this.currentAverage * this.randomNumbersCollectedCount;
       this.randomNumbersCollectedCount += 1;
       this.currentAverage =
         (previousSum + randomNumber) / this.randomNumbersCollectedCount;
-      console.log("this.currentAverage", this.currentAverage);
+      logger.trace(`currentAverage updated to: ${this.currentAverage}`);
     }, this.frequency);
   }
 
   stop() {
-    console.log("Stopping monitor");
+    logger.info("Stopping monitor");
     clearInterval(this.interval);
   }
 }
