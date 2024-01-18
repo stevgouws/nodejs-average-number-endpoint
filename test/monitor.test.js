@@ -24,7 +24,7 @@ describe("monitor", () => {
     });
     it(`should not update the average in less than ${monitor.frequency}ms`, async () => {
       await clock.tickAsync(monitor.frequency - 1);
-      expect(monitor.currentAverage).to.be.undefined;
+      expect(monitor.currentAverage).to.equal(0);
     });
 
     it(`should update the average after ${monitor.frequency}ms`, async () => {

@@ -5,9 +5,9 @@ export class Monitor {
 
   interval;
 
-  randomNumbers = [];
+  randomNumbersCollectedCount = 0;
 
-  currentAverage;
+  currentAverage = 0;
 
   async start() {
     console.log("Starting monitor");
@@ -18,10 +18,11 @@ export class Monitor {
         return;
       }
       console.log(`Adding ${randomNumber}`);
-      this.randomNumbers.push(randomNumber);
+      const previousSum =
+        this.currentAverage * this.randomNumbersCollectedCount;
+      this.randomNumbersCollectedCount += 1;
       this.currentAverage =
-        this.randomNumbers.reduce((memo, number) => memo + number, 0) /
-        this.randomNumbers.length;
+        (previousSum + randomNumber) / this.randomNumbersCollectedCount;
       console.log("this.currentAverage", this.currentAverage);
     }, this.frequency);
   }
