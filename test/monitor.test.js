@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { describe, it, before, after } from "mocha";
+import { describe, it, before, after, beforeEach, afterEach } from "mocha";
 import sinon from "sinon";
 import { Monitor } from "../app/Monitor.js";
 import { randomNumberService } from "../app/services/randomNumberService.js";
@@ -36,11 +36,11 @@ describe("monitor", () => {
     });
   });
 
-  describe.only("given that a wide range of numbers are provided by the random number service", () => {
+  describe("given that a wide range of numbers are provided by the random number service", () => {
     const monitor = new Monitor();
     let clock;
     const range = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]; // average 55
-    before(async () => {
+    beforeEach(async () => {
       clock = sinon.useFakeTimers();
       const randomNumberServiceStub = sinon.stub(
         randomNumberService,
@@ -51,7 +51,7 @@ describe("monitor", () => {
       });
       await monitor.start();
     });
-    after(async () => {
+    afterEach(async () => {
       clock.restore();
       sinon.restore();
     });
