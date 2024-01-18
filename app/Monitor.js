@@ -11,7 +11,6 @@ export class Monitor {
     console.log("Starting monitor");
     this.interval = setInterval(async () => {
       const randomNumber = await randomNumberService.getRandomNumber();
-      // SG_TODO handle errors
       if (typeof randomNumber !== "number") {
         console.log(`number is ${randomNumber}, skipping...`);
         return;

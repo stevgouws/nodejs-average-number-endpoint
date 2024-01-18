@@ -60,4 +60,29 @@ describe("monitor", () => {
       expect(monitor.currentAverage).to.equal(55);
     });
   });
+
+  describe("given that the random number service doesn't return a number", () => {
+    const monitor = new Monitor();
+    let clock;
+    const range = [undefined, 10, 20]; // average 15
+    beforeEach(async () => {
+      clock = sinon.useFakeTimers();
+      const randomNumberServiceStub = sinon.stub(
+        randomNumberService,
+        "getRandomNumber"
+      );
+      range.forEach((number, index) => {
+        randomNumberServiceStub.onCall(index).returns(number);
+      });
+      await monitor.start();
+    });
+    afterEach(async () => {
+      clock.restore();
+      sinon.restore();
+    });
+    it("should ignore that value from the calculation", async () => {
+      await clock.tickAsync(1000 * range.length);
+      expect(monitor.currentAverage).to.equal(15);
+    });
+  });
 });
