@@ -14,7 +14,6 @@ export class Monitor {
     logger.info(`Starting monitor, running at ${this.frequency}ms intervals`);
     this.interval = setInterval(async () => {
       const randomNumber = await randomNumberService.getRandomNumber();
-      logger.trace(`received ${randomNumber}`);
       if (typeof randomNumber !== "number") {
         logger.trace(
           `number is ${randomNumber} instead of a number, skipping...`
